@@ -419,11 +419,24 @@ EOD;
 		$this->assertEquals($end, $event->VEVENT->DTEND->getValue());
 
 		if ($isShared) {
-			$this->assertEquals($this->l10n->t('Busy'), $event->VEVENT->SUMMARY->getValue());
+			$this->assertEquals('Busy', $event->VEVENT->SUMMARY->getValue());
 			$this->assertArrayNotHasKey('ATTENDEE', $event->VEVENT);
 			$this->assertArrayNotHasKey('LOCATION', $event->VEVENT);
 			$this->assertArrayNotHasKey('DESCRIPTION', $event->VEVENT);
 			$this->assertArrayNotHasKey('ORGANIZER', $event->VEVENT);
+		} else {
+			$this->assertEquals('Test Event', $event->VEVENT->SUMMARY->getValue());
+		}
+
+		// Test l10n
+		$l10n = \OC::$server->getL10NFactory()->get('dav', 'de');
+		$c = new Calendar($backend, $calendarInfo, $this->l10n, $this->config);
+
+		$privateEventCalData = $c->getChild('event-1')->get();
+		$event = Reader::read($calData);
+
+		if ($isShared) {
+			$this->assertEquals($l10n->t('Busy'), $event->VEVENT->SUMMARY->getValue());
 		} else {
 			$this->assertEquals('Test Event', $event->VEVENT->SUMMARY->getValue());
 		}
@@ -513,7 +526,7 @@ CALSCALE:GREGORIAN
 BEGIN:VEVENT
 CREATED:20171022T125130
 UID:PPL24TH8UGOWE94XET87ER
-SUMMARY:{$this->l10n->t('Busy')}
+SUMMARY:Busy
 CLASS:CONFIDENTIAL
 DTSTART;VALUE=DATE:20171024
 DTEND;VALUE=DATE:20171025
