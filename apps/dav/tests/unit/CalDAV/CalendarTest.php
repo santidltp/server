@@ -430,7 +430,7 @@ EOD;
 
 		// Test l10n
 		$l10n = \OC::$server->getL10NFactory()->get('dav', 'de');
-		$c = new Calendar($backend, $calendarInfo, $this->l10n, $this->config);
+		$c = new Calendar($backend, $calendarInfo, $l10n, $this->config);
 
 		$privateEventCalData = $c->getChild('event-1')->get();
 		$event = Reader::read($calData);
