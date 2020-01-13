@@ -39,7 +39,7 @@ class CalendarObject extends \Sabre\CalDAV\CalendarObject {
 	 * CalendarObject constructor.
 	 *
 	 * @param CalDavBackend $caldavBackend
-	 * @param IL10N $l
+	 * @param IL10N $l10n
 	 * @param array $calendarInfo
 	 * @param array $objectData
 	 */

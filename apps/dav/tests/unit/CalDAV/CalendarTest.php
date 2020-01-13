@@ -432,7 +432,7 @@ EOD;
 		$l10n = \OC::$server->getL10NFactory()->get('dav', 'de');
 		$c = new Calendar($backend, $calendarInfo, $l10n, $this->config);
 
-		$privateEventCalData = $c->getChild('event-1')->get();
+		$calData = $c->getChild('event-1')->get();
 		$event = Reader::read($calData);
 
 		if ($isShared) {
