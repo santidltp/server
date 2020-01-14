@@ -1,12 +1,14 @@
 <?php
 /**
  * @copyright Copyright (c) 2016, ownCloud, Inc.
+ * @copyright Copyright (c) 2020, Gary Kim <gary@garykim.dev>
  *
  * @author Georg Ehrke <oc.list@georgehrke.com>
  * @author Joas Schilling <coding@schilljs.com>
  * @author Morris Jobke <hey@morrisjobke.de>
  * @author Roeland Jago Douma <roeland@famdouma.nl>
  * @author Thomas Müller <thomas.mueller@tmit.eu>
+ * @author Gary Kim <gary@garykim.dev>
  *
  * @license AGPL-3.0
  *
@@ -429,7 +431,8 @@ EOD;
 		}
 
 		// Test l10n
-		$l10n = \OC::$server->getL10NFactory()->get('dav', 'de');
+		$l10n = $this->getMockBuilder(IL10N::class)
+			->setConstructorArgs(['dav', 'de'])->getMock();
 		$c = new Calendar($backend, $calendarInfo, $l10n, $this->config);
 
 		$calData = $c->getChild('event-1')->get();
