@@ -62,6 +62,9 @@
 		<div v-if="licence" class="app-licence">
 			{{ licence }}
 		</div>
+		<div v-if="appVersion" class="app-version-details-view">
+			{{ t('settings', 'Version {version}', {version: appVersion}) }}
+		</div>
 		<div class="actions">
 			<div class="actions-buttons">
 				<input v-if="app.update"
@@ -216,6 +219,15 @@ export default {
 		licence() {
 			if (this.app.licence) {
 				return t('settings', '{license}-licensed', { license: ('' + this.app.licence).toUpperCase() })
+			}
+			return null
+		},
+		appVersion() {
+			if (this.app.version) {
+				return this.app.version
+			}
+			if (this.app.appstoreData.releases && this.app.appstoreData.releases.length > 0) {
+				return this.app.appstoreData.releases[0].version
 			}
 			return null
 		},
