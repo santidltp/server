@@ -29,7 +29,7 @@ namespace OCA\Files_Sharing\Listener;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\IConfig;
-use OCP\Share\Events\SharedEvent;
+use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\IManager;
 
 class UserShareAcceptanceListener implements IEventListener {
@@ -48,7 +48,7 @@ class UserShareAcceptanceListener implements IEventListener {
 	}
 
 	public function handle(Event $event): void {
-		if (!($event instanceof SharedEvent)) {
+		if (!($event instanceof ShareCreatedEvent)) {
 			return;
 		}
 
