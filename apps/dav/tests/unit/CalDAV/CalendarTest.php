@@ -33,6 +33,7 @@ use OCA\DAV\CalDAV\CalDavBackend;
 use OCA\DAV\CalDAV\Calendar;
 use OCP\IConfig;
 use OCP\IL10N;
+use OCP\L10N\IFactory;
 use Sabre\DAV\PropPatch;
 use Sabre\VObject\Reader;
 use Test\TestCase;
@@ -45,6 +46,9 @@ class CalendarTest extends TestCase {
 	/** @var IConfig */
 	protected $config;
 
+	/** @var IFactory */
+	protected $l10nFactory;
+
 	protected function setUp(): void {
 		parent::setUp();
 		$this->l10n = $this->getMockBuilder(IL10N::class)
@@ -56,6 +60,7 @@ class CalendarTest extends TestCase {
 			->will($this->returnCallback(function ($text, $parameters = array()) {
 				return vsprintf($text, $parameters);
 			}));
+		$this->l10nFactory = $this->createMock(IFactory::class);
 	}
 
 	public function testDelete() {
@@ -431,13 +436,16 @@ EOD;
 		}
 
 		// Test l10n
-		$l10n = $this->getMockBuilder(IL10N::class)
-			->setConstructorArgs(['dav', 'de'])->getMock();
+		$l10n = $this->createMock(IL10N::class);
 		$l10n->expects($this->any())
 			->method('t')
 			->will($this->returnCallback(function ($text, $parameters = array()) {
 				return vsprintf($text, $parameters);
 			}));
+		$this->l10nFactory->expects($this->once())
+			->method('get')
+			->with('dav', 'de')
+			->willReturn($l10n);
 		$c = new Calendar($backend, $calendarInfo, $l10n, $this->config);
 
 		$calData = $c->getChild('event-1')->get();
