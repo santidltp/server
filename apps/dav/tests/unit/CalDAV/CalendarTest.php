@@ -433,6 +433,11 @@ EOD;
 		// Test l10n
 		$l10n = $this->getMockBuilder(IL10N::class)
 			->setConstructorArgs(['dav', 'de'])->getMock();
+		$l10n->expects($this->any())
+			->method('t')
+			->will($this->returnCallback(function ($text, $parameters = array()) {
+				return vsprintf($text, $parameters);
+			}));
 		$c = new Calendar($backend, $calendarInfo, $l10n, $this->config);
 
 		$calData = $c->getChild('event-1')->get();
